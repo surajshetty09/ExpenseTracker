@@ -1,0 +1,95 @@
+.red-text {
+    color: red;
+}
+
+.green-text {
+    color: green;
+}
+
+.center-container {
+    max-width: 800px;  /* Set a max width */
+    margin: 0 auto;    /* Center horizontally */
+    padding: 20px;     /* Add some padding */
+    text-align: center; /* Center text inside */
+}
+
+/* Card styling */
+.transaction-card {
+    max-width: 450px;  /* Set maximum width for each card */
+    margin: 10px;      /* Add some margin around cards */
+    padding: 10px;     /* Add padding inside the card */
+    /*border: 1px solid #ccc;  Optional: Add a border */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+    display: inline-block; /* Keep cards inline */
+    vertical-align: top; /* Align them at the top */
+}
+
+.transaction-description {
+	font-size: 13px;
+    font-weight: bold; /* Make description bold */
+    margin-right: 180px;
+}
+
+.transaction-amount {
+    color: grey; /* Set color for amount */
+    margin-right: 50px;
+}
+
+.transaction-card {
+display: flex;
+margin: auto;
+}
+
+.green-button{
+	background-color: green; 
+	color: white; 
+	border: none;
+}
+
+.red-button {
+    color: red;
+}
+
+.custom-tabview .ui-tabs-nav {
+    display: flex;                       /* Use flexbox */
+    justify-content: space-between;      /* Distribute space evenly */
+}
+
+.custom-tabview .ui-tabs-nav li {
+    flex: 1;                             /* Each tab takes equal width */
+    text-align: center;                  /* Center the text */
+}
+
+.custom-tabview .ui-tabs-nav li .ui-tabview-title {
+    width: 100%;                         /* Ensure the title covers the full width */
+}
+
+
+.custom-button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Add padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 16px; /* Increase font size */
+    font-weight: bold; /* Bold text */
+    border: none; /* Remove border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+}
+
+.custom-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+.custom-button .ui-button-icon-left {
+    margin-right: 10px; /* Add space between icon and text */
+}
+
+.custom-button .ui-button-text {
+    font-size: 16px; /* Text size */
+    font-weight: 600; /* Make the text bold */
+}
+
+/* styles.css */

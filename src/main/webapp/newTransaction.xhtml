@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>New Transaction</title>
+        <h:outputStylesheet library="primefaces-nova-light" name="theme.css" />
+         <style>
+            body {
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #f5f5f5;
+            }
+            
+            .centered-container {
+                padding: 20px;
+                background-color: white;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <h1>Add New Transaction</h1>
+            <p:messages id="messages" autoUpdate="true" />
+            <p:panelGrid columns="2" styleClass="grid">
+                <p:outputLabel value="Amount:" for="amount"/>
+                <p:inputText id="amount" value="#{ExpenseTrackerBean.transaction.amount}"  required="true" requiredMessage="Amount is required" type="number" placeholder="Enter amount"/>
+                <p:outputLabel value="Description:" for="desc"/>
+                <p:inputText id="desc" value="#{ExpenseTrackerBean.transaction.desc}" required="true" requiredMessage="Description required" />
+            </p:panelGrid>
+            <br />
+          	<h:panelGroup layout="block" style="display: flex; gap: 10px;">
+			    <p:commandButton value="Save" action="#{ExpenseTrackerBean.saveTransaction}" icon="pi pi-check" style="background-color: green; color: white; border: none;" update="messages"/>
+			    <p:commandButton value="Cancel" action="mainpage.xhtml?faces-redirect=true" immediate="true" icon="pi pi-times" style="background-color: red; color: white; border: none;"/>
+			</h:panelGroup>
+        </h:form>
+    </h:body>
+</html>

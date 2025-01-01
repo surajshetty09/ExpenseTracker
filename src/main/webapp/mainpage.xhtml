@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<title>Expense Tracker</title>
+	<h:outputStylesheet name="css/styles.css" />
+	<!-- <h:outputStylesheet library="primefaces" name="theme.css" />
+	<h:outputScript library="primefaces" name="primefaces.js" /> -->
+</h:head>
+
+<h:body style="background-color: #c6dcef">
+	<h:panelGroup layout="block" styleClass="center-container"
+		style="color:grey; background-color: white; border-radius: 7px;">
+		<h:form id="form">
+		
+		<p:growl id="msgs" widgetVar="msgs" showDetail="true" life="3000"/>
+		<p:growl id="dlt" widgetVar="dlt" showDetail="true" life="3000"/>
+		
+			<h:panelGroup layout="block"
+				style="text-align: center; padding: 20px; background-color: #3f51b5; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); color: white;">
+				<h2
+					style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: 2px; margin: 0;">
+					Expense Tracker</h2>
+			</h:panelGroup>
+			<br />
+			<!-- To create new Transaction -->
+			<p:commandButton value="New Transaction" icon="pi pi-plus"
+				id="newtranbtn"
+				action="#{ExpenseTrackerBean.prepareNewTransaction()}"
+				update=":form:amount, :form:description"
+				process="@this"
+				oncomplete="PF('transactionDialog').show()"
+				styleClass="custom-button" />
+
+			<div class="card"
+				style="padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+				<p:tabView styleClass="custom-tabview" activeIndex="0" id="tabview">
+
+					<!-- Total Balance Tab -->
+					<p:tab title="Total Balance" icon="pi pi-wallet"
+						titleStyle="font-weight: bold; text-transform: uppercase; color: #3f51b5;">
+						<h3 style="color: #3f51b5; text-align: center;">Balance
+							Overview</h3>
+						<h:outputText value="#{ExpenseTrackerBean.totalBalance}"
+							style="font-size: 24px; font-weight: bold; display: block; text-align: center; color: #3f51b5;" />
+					</p:tab>
+
+					<!-- Total Income Tab -->
+					<p:tab title="Total Income" icon="pi pi-arrow-circle-up"
+						titleStyle="font-weight: bold; text-transform: uppercase; color: green;">
+						<h3 style="color: green; text-align: center;">Income Overview</h3>
+						<h:outputText value="#{ExpenseTrackerBean.totalIncome}"
+							style="font-size: 24px; font-weight: bold; display: block; text-align: center; color: green;" />
+					</p:tab>
+
+					<!-- Total Expense Tab -->
+					<p:tab title="Total Expense" icon="pi pi-arrow-circle-down"
+						titleStyle="font-weight: bold; text-transform: uppercase; color: red;">
+						<h3 style="color: red; text-align: center;">Expense Overview</h3>
+						<h:outputText value="#{ExpenseTrackerBean.totalExpense}"
+							style="font-size: 24px; font-weight: bold; display: block; text-align: center; color: red;" />
+					</p:tab>
+
+				</p:tabView>
+			</div>
+
+			<h3>Transactions:</h3>
+
+			<!-- <h:panelGroup id="panel">
+				<ui:repeat value="#{ExpenseTrackerBean.transactions}" var="txn">
+					<p:panel styleClass="transaction-card">
+						<h:panelGrid columns="3" style="flex: 1; width: 100%;">
+							<h:outputText value="#{txn.desc}"
+								style="flex: 0 0 60%; text-align: left; "
+								styleClass="transaction-description" />
+							<h:outputText value="#{txn.amount}"
+								style="flex: 0 0 30%; text-align: right; "
+								styleClass="transaction-amount" />
+							<h:commandButton value="&#10006;" title="Delete Transaction"
+								action="#{ExpenseTrackerBean.deleteTransaction(txn.id)}"
+								style="flex: 0 0 10%; color: red; background: none; border: none; font-size: 18px; text-align: center;" />
+						</h:panelGrid>
+					</p:panel>
+					<br />
+				</ui:repeat>
+			</h:panelGroup> -->
+			
+				<p:dataTable id="panel" var="txn" value="#{ExpenseTrackerBean.transactions}"
+					style="width: 100%;" styleClass="transaction-table"
+					paginator="true" rows="10"
+					currentPageReportTemplate="Showing {startRecord} to {endRecord} of {totalRecords} transactions">
+
+					<!-- Column for Description -->
+					<p:column style="width: 60%;" headerText="Description">
+						<h:outputText value="#{txn.desc}"
+							styleClass="transaction-description" />
+					</p:column>
+
+					<!-- Column for Amount -->
+					<p:column style="width: 30%; text-align: right;" headerText="Amount">
+						<h:outputText value="#{txn.amount}"
+							styleClass="transaction-amount"
+							style="#{txn.amount > 0 ? 'color: green;' : 'color: red;'}" />
+					</p:column>
+
+					<!-- Column for Delete Button -->
+					<p:column style="width: 10%; text-align: center;">
+						<h:commandButton value="&#10006;" title="Delete Transaction"
+								action="#{ExpenseTrackerBean.deleteTransaction(txn.id)}"
+								update="panel, dlt,tabview"
+								process="@this"
+                 				immediate="true"
+								style="flex: 0 0 10%; color: red; background: none; border: none; font-size: 18px; text-align: center;" />
+					</p:column>
+
+				</p:dataTable>
+				
+
+			<!--to Override-->
+			<style>
+body .ui-panel .ui-panel-content {
+	border: none;
+	background: #fff;
+	color: #333;
+	padding: .571rem 1rem;
+	width: 450px;
+}
+</style>
+
+			<br />
+
+			<!-- Dialog for adding a new transaction -->
+			<p:dialog id="transactionDialog" header="Add New Transaction"
+				widgetVar="transactionDialog" modal="true" closable="false"
+				resizable="false" width="500" style="padding: 0px;">
+
+				<!-- Transaction Form -->
+				<p:panelGrid columns="2" style="width: 100%;">
+					<p:outputLabel for="amount" value="Amount:"
+						style="font-weight: bold; margin-bottom: 10px;" />
+					<p:inputText id="amount"
+						value="#{ExpenseTrackerBean.transaction.amount}" required="true"
+						label="Amount" placeholder="Amount Required" >
+					 	<p:ajax event="blur" update="@this" process="@this" />
+				    </p:inputText>
+					
+
+					<p:outputLabel for="description" value="Description:"
+						style="font-weight: bold; margin-bottom: 10px;" />
+					<p:autoComplete id="description"
+						value="#{ExpenseTrackerBean.transaction.desc}" 
+						completeMethod="#{ExpenseTrackerBean.completeText}"
+						required="true"
+						label="Description" placeholder="Description Required" />
+				</p:panelGrid>
+
+				<!-- Button Group -->
+				<h:panelGroup layout="block"
+					style="margin-top: 15px; text-align: center;">
+					<!-- Save Button -->
+					<p:commandButton value="Save" icon="pi pi-check"
+						action="#{ExpenseTrackerBean.saveTransaction()}"
+						update="amount, description, panel, tabview, msgs"
+						styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-success"
+						style="margin-right: 10px;"
+						oncomplete="if (!args.validationFailed) { PF('transactionDialog').hide(); }" />
+
+					<!-- Cancel Button -->
+					<p:commandButton value="Cancel" icon="pi pi-times" type="button"
+						styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-secondary"
+						onclick="PF('transactionDialog').hide()" />
+				</h:panelGroup>
+
+			</p:dialog>
+
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</html>
